@@ -1,11 +1,11 @@
 """
 ErrBot Redmine Plugin (python 3 only)
 """
-from errbot import BotPlugin, botcmd
 from urllib.request import urlopen
-from commonregex import CommonRegex
-from bs4 import BeautifulSoup
 from urllib.error import HTTPError
+from errbot import BotPlugin, botcmd
+from bs4 import BeautifulSoup
+from commonregex import CommonRegex
 
 
 class LinksBot(BotPlugin):
@@ -22,12 +22,12 @@ class LinksBot(BotPlugin):
         Triggers on plugin activation
         """
         super(LinksBot, self).activate()
-        self.parser = CommonRegex()
+        self.regex_parser = CommonRegex()
 
     @botcmd
     def links(self, message, args):
         """
-        Command to say hi to the world !
+        Simple useless command
         """
         return "This plugin decode your links, and that's all for now!"
 
@@ -36,19 +36,19 @@ class LinksBot(BotPlugin):
         Check if there are links in the message
         and if so return the title of the target page and it's real url
         """
-        results = self.parser.links(message.getBody())
+        results = self.regex_parser.links(message.getBody())
+        return_message = error = ''
 
         for res in results:
-            return_message = ''
-            error = False
             try:
                 page = urlopen(res)
-            except HTTPError:
-                error = True
+            except HTTPError as e:
+                error = e
 
             if error or page.getcode() != 200:
-                return_message = ('Something BAD happened while trying '
-                                  'to open this link: ' + res)
+                return_message = (
+                    'An error occured while trying to open this link: {0}{1}'
+                ).format(res, '\n==>: ' + str(error) if error else '')
             else:
                 return_message = '{0} ({1})'.format(
                     BeautifulSoup(page.read()).title.string, page.url)
