@@ -49,6 +49,6 @@ class LinksBot(BotPlugin):
                 return_message = '{0} ({1})'.format(
                     BeautifulSoup(page.read()).title.string, page.url)
 
-            self.send(mess.getFrom(),
+            self.send(mess.frm,
                       return_message,
-                      message_type=mess.getType())
+                      message_type=mess.type)
