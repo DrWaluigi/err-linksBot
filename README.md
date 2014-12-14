@@ -22,5 +22,4 @@ Installation
 pip install -r requirements.txt
 ~~~
 
-**To complete**
 

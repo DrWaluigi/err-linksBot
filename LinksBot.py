@@ -10,10 +10,6 @@ from commonregex import CommonRegex
 
 class LinksBot(BotPlugin):
 
-    """
-    An Err plugin for Links
-    """
-
     min_err_version = '2.1.0'
     max_err_version = '3.0.0'
 

@@ -2,8 +2,9 @@
 Name = LinksBot
 Module = LinksBot
 
+[Documentation]
+Description = Plugin that handle links posted in chatrooms
+
 [Python]
 Version = 3
 
-[Documentation]
-Description = Links plugin
