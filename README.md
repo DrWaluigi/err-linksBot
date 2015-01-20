@@ -12,14 +12,16 @@ Requirements
 ============
 - Python 3
 - [CommonRegex](https://github.com/madisonmay/CommonRegex)
-- [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/bs4/doc/) (Should already be installed, required by Err)
+- [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
 
 Installation
 ================
 
+- First install the dependencies:
 ~~~
 pip install -r requirements.txt
 ~~~
 
-
+- Once the dependencies are installed on the server where Err is running, simply use the `!repo install LinksBot` command in order to install the plugin.
+Then `!help` to see the available commands and their explanation.
