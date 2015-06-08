@@ -27,7 +27,7 @@ class LinksBot(BotPlugin):
         """
         return "This plugin decode your links, and that's all for now!"
 
-    def callback_message(self, connection, message):
+    def callback_message(self, message):
         """
         Check if there are links in the message
         and if so return the title of the target page and it's real url
