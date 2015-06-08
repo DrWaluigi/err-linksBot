@@ -32,7 +32,7 @@ class LinksBot(BotPlugin):
         Check if there are links in the message
         and if so return the title of the target page and it's real url
         """
-        results = self.regex_parser.links(message.getBody())
+        results = self.regex_parser.links(message.body)
         return_message = error = ''
 
         for res in results:
@@ -49,6 +49,6 @@ class LinksBot(BotPlugin):
                 return_message = '{0} ({1})'.format(
                     BeautifulSoup(page.read()).title.string, page.url)
 
-            self.send(message.getFrom(),
+            self.send(message.frm,
                       return_message,
-                      message_type=message.getType())
+                      message_type=message.type)
