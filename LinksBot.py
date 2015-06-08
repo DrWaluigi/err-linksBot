@@ -6,7 +6,9 @@ from urllib.error import HTTPError
 from errbot import BotPlugin, botcmd
 from bs4 import BeautifulSoup
 from commonregex import CommonRegex
+import logging
 
+log = logging.getLogger('errbot.plugins.LinksBot')
 
 class LinksBot(BotPlugin):
 
@@ -39,12 +41,15 @@ class LinksBot(BotPlugin):
             try:
                 page = urlopen(res)
             except HTTPError as e:
+                log.warning("HTTP Error while fetching {0}: {1}".format(res, e))
                 error = e
 
             if error or page.getcode() != 200:
                 return_message = (
                     'An error occured while trying to open this link: {0}{1}'
                 ).format(res, '\n==>: ' + str(error) if error else '')
+                log.warning(return_message)
+                continue
             else:
                 return_message = '{0} ({1})'.format(
                     BeautifulSoup(page.read()).title.string, page.url)
