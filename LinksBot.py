@@ -19,13 +19,6 @@ class LinksBot(BotPlugin):
         super(LinksBot, self).activate()
         self.regex_parser = CommonRegex()
 
-    @botcmd
-    def links(self, message, args):
-        """
-        Simple useless command
-        """
-        return "This plugin decode your links, and that's all for now!"
-
     def callback_message(self, connection, message):
         """
         Check if there are links in the message
