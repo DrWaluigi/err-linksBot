@@ -54,4 +54,7 @@ class LinksBot(BotPlugin):
                 return_message = '{0} ({1})'.format(
                     BeautifulSoup(page.read()).title.string, page.url)
 
-            self.send(message.frm, return_message)
+            if message.is_group:
+                self.send(message.to, return_message)
+            else:
+                self.send(message.frm, return_message)
