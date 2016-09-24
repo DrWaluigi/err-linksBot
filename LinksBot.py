@@ -5,12 +5,18 @@ It fetch and send the title of links posted.
 
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
-from errbot import BotPlugin, botcmd
+from errbot import BotPlugin
 from bs4 import BeautifulSoup
 from commonregex import CommonRegex
 
 
 class LinksBot(BotPlugin):
+    """
+    Main and only class for the module
+    """
+
+    def __init__(self):
+        self.regex_parser = None
 
     def activate(self):
         """
