@@ -19,12 +19,12 @@ class LinksBot(BotPlugin):
         super(LinksBot, self).activate()
         self.regex_parser = CommonRegex()
 
-    def callback_message(self, connection, message):
+    def callback_message(self, message):
         """
         Check if there are links in the message
         and if so return the title of the target page and it's real url
         """
-        results = self.regex_parser.links(message.getBody())
+        results = self.regex_parser.links(message.body)
         return_message = error = ''
 
         for res in results:
@@ -41,6 +41,4 @@ class LinksBot(BotPlugin):
                 return_message = '{0} ({1})'.format(
                     BeautifulSoup(page.read()).title.string, page.url)
 
-            self.send(message.getFrom(),
-                      return_message,
-                      message_type=message.getType())
+            self.send(message.frm, return_message)
