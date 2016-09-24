@@ -1,6 +1,8 @@
 """
-ErrBot Redmine Plugin (python 3 only)
+This a module for errbot: https://github.com/errbotio/errbot/
+It fetch and send the title of links posted.
 """
+
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from errbot import BotPlugin, botcmd
