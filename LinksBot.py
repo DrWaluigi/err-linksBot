@@ -4,7 +4,7 @@ It fetch and send the title of links posted.
 """
 
 from urllib.request import urlopen
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from errbot import BotPlugin, botcmd
 from bs4 import BeautifulSoup
 from commonregex import CommonRegex
@@ -30,8 +30,15 @@ class LinksBot(BotPlugin):
         for res in results:
             try:
                 page = urlopen(res)
-            except HTTPError as e:
-                error = e
+            except (HTTPError, URLError) as exception:
+                error = exception
+            except ValueError:
+                try:
+                    page = urlopen('http://' + res)
+                except HTTPError as exception:
+                    error = exception
+                except URLError:
+                    pass
 
             if error or page.getcode() != 200:
                 return_message = (
