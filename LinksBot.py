@@ -15,8 +15,9 @@ class LinksBot(BotPlugin):
     Main and only class for the module
     """
 
-    def __init__(self):
+    def __init__(self, bot):
         self.regex_parser = None
+        super().__init__(bot)
 
     def activate(self):
         """
