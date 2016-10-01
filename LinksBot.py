@@ -3,7 +3,7 @@ This a module for errbot: https://github.com/errbotio/errbot/
 It fetch and send the title of links posted.
 """
 
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 from urllib.error import HTTPError, URLError
 from errbot import BotPlugin
 from bs4 import BeautifulSoup
@@ -31,16 +31,21 @@ class LinksBot(BotPlugin):
         and if so return the title of the target page and it's real url
         """
         results = self.regex_parser.links(message.body)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0'
+        }
         return_message = error = ''
 
         for res in results:
             try:
-                page = urlopen(res)
+                req = Request(res, data=None, headers=headers)
+                page = urlopen(req)
             except (HTTPError, URLError) as exception:
                 error = exception
             except ValueError:
                 try:
-                    page = urlopen('http://' + res)
+                    req = Request('http://'+res, data=None, headers=headers)
+                    page = urlopen(req)
                 except HTTPError as exception:
                     error = exception
                 except URLError:
