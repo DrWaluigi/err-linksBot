@@ -20,7 +20,7 @@ The installation procedure depends of the value of AUTOINSTALL_DEPS in Err confi
 
 ## If AUTOINSTALL_DEPS = True
 
-Just send `!repos install sparunakian/err-linksBot` in private to the bot.
+Just send `!repos install https://github.com/sparunakian/err-linksBot` in private to the bot.
 
 ## If AUTOINSTALL_DEPS = False
 
@@ -29,7 +29,7 @@ Just send `!repos install sparunakian/err-linksBot` in private to the bot.
 pip install -r requirements.txt
 ```
 
-- Send `!repos install sparunakian/err-linksBot` in private to the bot.
+- Send `!repos install https://github.com/sparunakian/err-linksBot` in private to the bot.
 
 
 # Usage
