@@ -1,6 +1,6 @@
 # Introduction
 
-err-LinksBot is plugin for Err that handle links posted in chatrooms. This is a fork of https://github.com/brycied00d/err-linksBot
+err-LinksBot is a plugin for Err that handle links posted in chatrooms. This is a fork of https://github.com/brycied00d/err-linksBot (deleted), which was a fork of https://github.com/vaz-ar/err-linksBot (also deleted).
 
 For now it tries to open links and return the real url and title of the target page.
 
