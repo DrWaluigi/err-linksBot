@@ -5,6 +5,7 @@ It fetch and send the title of links posted.
 
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlparse
 from errbot import BotPlugin
 from bs4 import BeautifulSoup
 from commonregex import CommonRegex
@@ -26,6 +27,9 @@ class LinksBot(BotPlugin):
         super(LinksBot, self).activate()
         self.regex_parser = CommonRegex()
 
+    def get_configuration_template(self):
+        return {'DOMAIN_BLACKLIST': ('example.com', )}
+
     def callback_message(self, message):
         """
         Check if there are links in the message
@@ -45,22 +49,24 @@ class LinksBot(BotPlugin):
                 error = exception
             except ValueError:
                 try:
-                    req = Request('http://'+res, data=None, headers=headers)
+                    res = 'http://' + res
+                    req = Request(res, data=None, headers=headers)
                     page = urlopen(req)
                 except HTTPError as exception:
                     error = exception
                 except URLError:
                     pass
 
-            if error or page.getcode() != 200:
-                return_message = (
-                    'An error occured while trying to open this link: {0}{1}'
-                ).format(res, '\n==>: ' + str(error) if error else '')
-            else:
-                return_message = '{0} ({1})'.format(
-                    BeautifulSoup(page.read()).title.string, page.url)
+            if urlparse(res).netloc not in self.config['DOMAIN_BLACKLIST']:
+                if error or page.getcode() != 200:
+                    return_message = (
+                        'An error occured while trying to open this link: {0}{1}'
+                    ).format(res, '\n==>: ' + str(error) if error else '')
+                else:
+                    return_message = '{0} ({1})'.format(
+                        BeautifulSoup(page.read()).title.string, page.url)
 
-            if message.is_group:
-                self.send(message.to, return_message)
-            else:
-                self.send(message.frm, return_message)
+                if message.is_group:
+                    self.send(message.to, return_message)
+                else:
+                    self.send(message.frm, return_message)
