@@ -44,13 +44,14 @@ class LinksBot(BotPlugin):
         for res in results:
             if urlsplit(res).scheme == '':
                 res = 'http://' + res
-            try:
-                req = Request(res, data=None, headers=headers)
-                page = urlopen(req)
-            except (HTTPError, URLError) as exception:
-                error = exception
 
             if urlparse(res).netloc not in self.config['DOMAIN_BLACKLIST']:
+                try:
+                    req = Request(res, data=None, headers=headers)
+                    page = urlopen(req)
+                except (HTTPError, URLError) as exception:
+                    error = exception
+
                 if error or page.getcode() != 200:
                     return_message = (
                         'An error occured while trying to open this link: {0}{1}'
