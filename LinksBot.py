@@ -45,7 +45,11 @@ class LinksBot(BotPlugin):
             if urlsplit(res).scheme == '':
                 res = 'http://' + res
 
-            if urlparse(res).netloc not in self.config['DOMAIN_BLACKLIST']:
+            domain = urlparse(res).netloc
+            if domain not in self.config['DOMAIN_BLACKLIST']:
+                if domain == 'youtube.com':
+                    # With a browser user agent, the title is set in js, not html
+                    headers.pop('User-Agent', None)
                 try:
                     req = Request(res, data=None, headers=headers)
                     page = urlopen(req)
