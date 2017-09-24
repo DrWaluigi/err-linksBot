@@ -5,7 +5,7 @@ It fetch and send the title of links posted.
 
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlsplit
 from errbot import BotPlugin
 from bs4 import BeautifulSoup
 from commonregex import CommonRegex
@@ -42,20 +42,13 @@ class LinksBot(BotPlugin):
         return_message = error = ''
 
         for res in results:
+            if urlsplit(res).scheme == '':
+                res = 'http://' + res
             try:
                 req = Request(res, data=None, headers=headers)
                 page = urlopen(req)
             except (HTTPError, URLError) as exception:
                 error = exception
-            except ValueError:
-                try:
-                    res = 'http://' + res
-                    req = Request(res, data=None, headers=headers)
-                    page = urlopen(req)
-                except HTTPError as exception:
-                    error = exception
-                except URLError:
-                    pass
 
             if urlparse(res).netloc not in self.config['DOMAIN_BLACKLIST']:
                 if error or page.getcode() != 200:
