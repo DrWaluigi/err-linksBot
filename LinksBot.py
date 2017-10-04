@@ -16,15 +16,11 @@ class LinksBot(BotPlugin):
     Main and only class for the module
     """
 
-    def __init__(self, bot):
-        self.regex_parser = None
-        super().__init__(bot)
-
     def activate(self):
         """
         Triggers on plugin activation
         """
-        super(LinksBot, self).activate()
+        super().activate()
         self.regex_parser = CommonRegex()
 
     def get_configuration_template(self):
