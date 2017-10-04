@@ -42,7 +42,7 @@ class LinksBot(BotPlugin):
                 res = 'http://' + res
 
             domain = urlparse(res).netloc
-            if domain not in self.config['DOMAIN_BLACKLIST']:
+            if (self.config and domain not in self.config['DOMAIN_BLACKLIST']) or not self.config:
                 if domain == 'youtube.com':
                     # With a browser user agent, the title is set in js, not html
                     headers.pop('User-Agent', None)
