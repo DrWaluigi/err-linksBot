@@ -10,6 +10,9 @@ from errbot import BotPlugin
 from bs4 import BeautifulSoup
 from commonregex import CommonRegex
 
+# Some websites define the page title in javascript when the request is made with a desktop browser UA
+# So we strip the UA for these sites
+DOMAINS_NO_UA = ['youtube.com', 'www.youtube.com', 'youtu.be', 'twitter.com']
 
 class LinksBot(BotPlugin):
     """
@@ -43,11 +46,11 @@ class LinksBot(BotPlugin):
 
             domain = urlparse(res).netloc
             if (self.config and domain not in self.config['DOMAIN_BLACKLIST']) or not self.config:
-                if domain == 'youtube.com':
-                    # With a browser user agent, the title is set in js, not html
-                    headers.pop('User-Agent', None)
                 try:
-                    req = Request(res, data=None, headers=headers)
+                    if domain in DOMAINS_NO_UA:
+                        req = Request(res, data=None, headers={})
+                    else:
+                        req = Request(res, data=None, headers=headers)
                     page = urlopen(req)
                 except (HTTPError, URLError) as exception:
                     error = exception
